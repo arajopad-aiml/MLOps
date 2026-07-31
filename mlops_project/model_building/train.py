@@ -1,5 +1,6 @@
 # for data manipulation
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
@@ -21,8 +22,9 @@ ytrain = pd.read_csv("ytrain.csv").squeeze()
 ytest  = pd.read_csv("ytest.csv").squeeze()
 
 # One-hot encode 'Type' and scale numeric features
-numerical_features = X.select_dtypes(include=np.number).columns.tolist()
-categorical_features = X.select_dtypes(include='object').columns.tolist()
+# Define features from Xtrain since X is not available at this stage
+numerical_features = Xtrain.select_dtypes(include=np.number).columns.tolist()
+categorical_features = Xtrain.select_dtypes(include='object').columns.tolist()
 
 # Set the class weight to handle class imbalance
 class_weight = ytrain.value_counts()[0] / ytrain.value_counts()[1]
