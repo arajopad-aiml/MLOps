@@ -32,7 +32,7 @@ with col_center:
         number_of_trips = st.number_input("Number of Trips Annually", min_value=0, max_value=20, value=3, step=1)
         # Categorical features as selectbox
         type_of_contact = st.selectbox("Type of Contact", ['Self Enquiry', 'Company Invited'])
-        occupation = st.selectbox("Occupation", ['Salaried', 'Small Business', 'Large Business', 'Freelancer'])
+        occupation = st.selectbox("Occupation", ['Salaried', 'Small Business', 'Large Business', 'Free Lancer'])
         gender = st.selectbox("Gender", ['Male', 'Female'])
 
     with col_b:
@@ -73,6 +73,28 @@ with col_center:
         "Designation": designation,
         "MonthlyIncome": monthly_income
     }])
+
+
+    # Prediction button in the centered column
+    if st.button("Predict Purchase"):
+        prediction_proba = model.predict_proba(input_data)[0, 1]
+
+    # Keep this consistent with train.py
+    classification_threshold = 0.45
+    prediction = int(prediction_proba >= classification_threshold)
+
+    st.subheader("Prediction Result:")
+
+    if prediction == 1:
+        st.success(
+            f"The model predicts: **Customer WILL purchase the package!** "
+            f"(Probability: {prediction_proba:.2%})"
+        )
+    else:
+        st.warning(
+            f"The model predicts: **Customer will NOT purchase the package.** "
+            f"(Probability: {prediction_proba:.2%})"
+        )
 
     # Prediction button in the centered column
     if st.button("Predict Purchase"):
