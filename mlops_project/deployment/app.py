@@ -74,58 +74,46 @@ with col_center:
         "MonthlyIncome": monthly_income
     }])
 
-
     # Prediction button in the centered column
     if st.button("Predict Purchase"):
+        # Generate the purchase probability
         prediction_proba = model.predict_proba(input_data)[0, 1]
 
-    # Keep this consistent with train.py
-    classification_threshold = 0.45
-    prediction = int(prediction_proba >= classification_threshold)
-
-    st.subheader("Prediction Result:")
-
-    if prediction == 1:
-        st.success(
-            f"The model predicts: **Customer WILL purchase the package!** "
-            f"(Probability: {prediction_proba:.2%})"
-        )
-    else:
-        st.warning(
-            f"The model predicts: **Customer will NOT purchase the package.** "
-            f"(Probability: {prediction_proba:.2%})"
-        )
-
-    # Prediction button in the centered column
-    if st.button("Predict Purchase"):
-        # Make prediction
-        prediction = model.predict(input_data)[0]
-        prediction_proba = model.predict_proba(input_data)[:, 1][0] # Probability of purchasing
+        # Keep this threshold consistent with train.py
+        classification_threshold = 0.45
+        prediction = int(prediction_proba >= classification_threshold)
 
         st.subheader("Prediction Result:")
+
         if prediction == 1:
-            st.success(f"The model predicts: **Customer WILL purchase the package!** (Probability: {prediction_proba:.2f})")
+            st.success(
+                f"The model predicts: **Customer WILL purchase the package!** "
+                f"(Probability: {prediction_proba:.2%})"
+            )
         else:
-            st.warning(f"The model predicts: **Customer will NOT purchase the package.** (Probability: {prediction_proba:.2f})")
+            st.warning(
+                f"The model predicts: **Customer will NOT purchase the package.** "
+                f"(Probability: {prediction_proba:.2%})"
+            )
 
 st.write("""
 ### Feature Information:
-*   **Age**: Age of the customer.
-*   **TypeofContact**: How the customer was contacted.
-*   **CityTier**: City category (Tier 1 is highest).
-*   **DurationOfPitch**: Length of the sales pitch.
-*   **Occupation**: Customer's job type.
-*   **Gender**: Customer's gender.
-*   **NumberOfPersonVisiting**: Total number of people in the travel group.
-*   **NumberOfFollowups**: Salesperson follow-ups.
-*   **ProductPitched**: Type of tourism product offered.
-*   **PreferredPropertyStar**: Customer's preferred hotel star rating.
-*   **MaritalStatus**: Customer's marital status.
-*   **NumberOfTrips**: Annual number of trips taken.
-*   **Passport**: Whether the customer has a valid passport.
-*   **PitchSatisfactionScore**: Customer satisfaction with the pitch.
-*   **OwnCar**: Whether the customer owns a car.
-*   **NumberOfChildrenVisiting**: Number of children in the group.
-*   **Designation**: Customer's job designation.
-*   **MonthlyIncome**: Customer's gross monthly income.
+* **Age**: Age of the customer.
+* **TypeofContact**: How the customer was contacted.
+* **CityTier**: City category (Tier 1 is highest).
+* **DurationOfPitch**: Length of the sales pitch.
+* **Occupation**: Customer's job type.
+* **Gender**: Customer's gender.
+* **NumberOfPersonVisiting**: Total number of people in the travel group.
+* **NumberOfFollowups**: Salesperson follow-ups.
+* **ProductPitched**: Type of tourism product offered.
+* **PreferredPropertyStar**: Customer's preferred hotel star rating.
+* **MaritalStatus**: Customer's marital status.
+* **NumberOfTrips**: Annual number of trips taken.
+* **Passport**: Whether the customer has a valid passport.
+* **PitchSatisfactionScore**: Customer satisfaction with the pitch.
+* **OwnCar**: Whether the customer owns a car.
+* **NumberOfChildrenVisiting**: Number of children in the group.
+* **Designation**: Customer's job designation.
+* **MonthlyIncome**: Customer's gross monthly income.
 """)
